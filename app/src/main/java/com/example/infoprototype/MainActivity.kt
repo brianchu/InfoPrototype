@@ -14,7 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,9 +44,7 @@ fun MainScreen() {
     val viewModel: ConnectivityViewModel = viewModel()
     val uiState by remember { viewModel.uiState }
 
-    var status by remember { mutableStateOf("Press Start to Run Tests") }
     var userInput by remember { mutableStateOf("") }
-    val coroutineScope = rememberCoroutineScope()
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -55,7 +52,8 @@ fun MainScreen() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(text = status, fontSize = 20.sp, modifier = Modifier.padding(16.dp))
+            Text(text = uiState.feedbackMessage,
+                modifier = Modifier.padding(16.dp))
 
             Spacer(modifier = Modifier.height(20.dp))
 
@@ -65,13 +63,6 @@ fun MainScreen() {
                 Text(
                     text = if (uiState.isTesting) "Testing" else "Start Test", fontSize = 24.sp)
             }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Text(
-                text = uiState.feedbackMessage,
-                fontSize = 24.sp
-            )
 
             Spacer(modifier = Modifier.height(20.dp))
 
